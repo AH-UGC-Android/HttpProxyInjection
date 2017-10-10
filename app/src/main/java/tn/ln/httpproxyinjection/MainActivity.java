@@ -1,7 +1,7 @@
 package tn.ln.httpproxyinjection;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button requestBtn_1;
     private TextView text;
 
+    private static final String TAG = "MainActivity";
+    OkHttpClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +34,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void request_1() {
+
+//        client = new OkHttpClient.Builder()
+//                .addNetworkInterceptor(new InjectionInterceptor())
+//                .dns(OkHttpDns.getInstance(this))
+//                .build();
+
+        client = OkHttpUtils.getOkHttpClient(this);
+
         try {
             run("http://www.weather.com.cn/data/sk/101190408.html");
+//            run("https://www.baidu.com");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,15 +59,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         HttpClient.getClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+
                 Log.d("MainActivity", "fail");
+                Log.i(TAG, "onFailure: " + e.getMessage());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.d("MainActivity", "success");
+                Log.i("MainActivity", response.body().string());
+
             }
         });
-        ;
     }
 
     @Override
