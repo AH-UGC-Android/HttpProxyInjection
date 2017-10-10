@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--测试环境-->
+    <config
+        flag="0"
+        host="www.weather.com.cn"
+        ip="60.9.1.129"
+        type="debug"/>
+    <!--线上测试环境-->
+    <config
+        flag="1"
+        host="www.weather.com.cn"
+        ip="60.9.1.130"
+        type="pre_release"/>
+    <!--线上环境-->
+    <config
+        flag="2"
+        host="www.weather.com.cn"
+        ip="111.206.239.19"
+        type="release"/>
+</resources>

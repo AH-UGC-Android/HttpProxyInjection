@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="150dp"
+              android:layout_height="wrap_content"
+              android:background="#888888"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/popupwindow_radiogroup"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/popupwindow_type_debug"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="测试环境"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#666666"/>
+
+        <RadioButton
+            android:id="@+id/popupwindow_type_pre_release"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="线上测试"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#666666"/>
+
+        <RadioButton
+            android:id="@+id/popupwindow_type_release"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="线上环境"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
+    </RadioGroup>
+
+</LinearLayout>
