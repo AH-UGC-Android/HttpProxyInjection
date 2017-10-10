@@ -1,6 +1,4 @@
-package tn.ln.httpproxyinjection.net;
-
-import android.util.Log;
+package com.autohome.httpdns;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -17,7 +15,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okhttp3.internal.platform.Platform;
 import okio.Buffer;
 import okio.BufferedSource;
 

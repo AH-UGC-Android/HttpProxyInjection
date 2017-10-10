@@ -1,7 +1,6 @@
 package tn.ln.httpproxyinjection;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +16,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import tn.ln.httpproxyinjection.net.HttpClient;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private Button requestBtn_1;
     private TextView text;
@@ -59,19 +57,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .url(url)
                 .build();
 
-        HttpClient.getClient().newCall(request).enqueue(new Callback() {
+        client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
-                Log.d("MainActivity", "fail");
-                Log.i(TAG, "onFailure: " + e.getMessage());
+                Log.d(TAG, "fail");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("MainActivity", "success");
-                Log.i("MainActivity", response.body().string());
-
+                Log.d(TAG, "success");
             }
         });
     }

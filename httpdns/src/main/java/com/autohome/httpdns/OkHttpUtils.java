@@ -27,9 +27,13 @@ public class OkHttpUtils {
     private static OkHttpClient mDnsclient;
     private static Dispatcher mDispatcher;
 
+    private static final int CONNECT_TIME_OUT = 30;
+    private static final int READ_TIME_OUT = 20;
+
     /**
      * 通过域名异步获取IP地址
      *
+     * @param context
      * @param hostname
      * @return
      */
@@ -65,6 +69,7 @@ public class OkHttpUtils {
      * OkHttp client for httpDNS
      * DNS懒更新策略
      *
+     * @param context
      * @return
      */
     public static synchronized OkHttpClient getHTTPDnsClient(Context context) {
@@ -91,14 +96,19 @@ public class OkHttpUtils {
     }
 
     /**
+     * @param context
      * @return OkHttpClient
      */
     public static synchronized OkHttpClient getOkHttpClient(Context context) {
         if (mOkHttpClient == null) {
             final File cacheDir = context.getExternalCacheDir();
-//            mOkHttpClient = new OkHttpClient.Builder()
+            HttpLogInterceptor logInterceptor = new HttpLogInterceptor();
+            logInterceptor.setLevel(HttpLogInterceptor.LEVEL_BODY);
             OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                    .addNetworkInterceptor(new InjectionInterceptor())
+                    .connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS).
+                            readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
+                    .addInterceptor(logInterceptor)
+                    .addNetworkInterceptor(new NetworkInterceptor())
                     .cache(new Cache(new File(cacheDir, "okhttp"), 60 * 1024 * 1024))
                     .dispatcher(getDispatcher());
             //如果设置代理，走系统DNS服务解析域名;否则使用HTTPDNS
@@ -119,6 +129,8 @@ public class OkHttpUtils {
 
     /**
      * 检测系统是否已经设置代理
+     * @param context
+     * @return
      */
     public static boolean detectIfProxyExist(Context context) {
         boolean IS_ICS_OR_LATER = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
