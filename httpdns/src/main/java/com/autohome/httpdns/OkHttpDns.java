@@ -1,7 +1,6 @@
-package tn.ln.httpproxyinjection;
+package com.autohome.httpdns;
 
 import android.content.Context;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 

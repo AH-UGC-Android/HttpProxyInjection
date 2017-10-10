@@ -1,4 +1,4 @@
-package tn.ln.httpproxyinjection;
+package com.autohome.httpdns;
 
 import android.content.Context;
 import android.os.Build;
@@ -33,7 +33,7 @@ public class OkHttpUtils {
      * @param hostname
      * @return
      */
-    public static synchronized String getIpByHostAsync(Context context,String hostname) {
+    public static synchronized String getIpByHostAsync(Context context, String hostname) {
         String decryptedIP = "";
         String encryptedHostName = EncryptUtils.encrypt(Constant.TENCENT_HTTPDNS_KEY, hostname);
         HttpUrl httpUrl = new HttpUrl.Builder().scheme(Constant.TENCENT_HTTPDNS_SCHEME)
@@ -102,7 +102,7 @@ public class OkHttpUtils {
                     .cache(new Cache(new File(cacheDir, "okhttp"), 60 * 1024 * 1024))
                     .dispatcher(getDispatcher());
             //如果设置代理，走系统DNS服务解析域名;否则使用HTTPDNS
-            if (!detectIfProxyExist()) {
+            if (!detectIfProxyExist(context)) {
                 builder.dns(OkHttpDns.getInstance(context));
             }
             mOkHttpClient = builder.build();
@@ -120,7 +120,7 @@ public class OkHttpUtils {
     /**
      * 检测系统是否已经设置代理
      */
-    public static boolean detectIfProxyExist() {
+    public static boolean detectIfProxyExist(Context context) {
         boolean IS_ICS_OR_LATER = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
         String proxyHost;
         int proxyPort;
@@ -129,8 +129,8 @@ public class OkHttpUtils {
             String port = System.getProperty("http.proxyPort");
             proxyPort = Integer.parseInt(port != null ? port : "-1");
         } else {
-            proxyHost = android.net.Proxy.getHost(MyApplication.getInstance());
-            proxyPort = android.net.Proxy.getPort(MyApplication.getInstance());
+            proxyHost = android.net.Proxy.getHost(context);
+            proxyPort = android.net.Proxy.getPort(context);
         }
         return proxyHost != null && proxyPort != -1;
     }

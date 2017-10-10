@@ -1,4 +1,4 @@
-package tn.ln.httpproxyinjection;
+package com.autohome.httpdns;
 
 /**
  * 常量类
